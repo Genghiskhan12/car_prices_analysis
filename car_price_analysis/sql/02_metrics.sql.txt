@@ -1,0 +1,42 @@
+Среднее отклонение от рынка по брендам
+SELECT 
+  make,
+  AVG(sellingprice - mmr) AS avg_market_diff
+FROM car_prices
+GROUP BY make
+ORDER BY avg_market_diff DESC;
+
+Цена за милю
+SELECT make, model, (sellingprice / odometer) AS price_per_mile
+FROM car_prices
+WHERE odometer > 0
+order by price_per_mile desc;
+
+Влияние пробега
+SELECT 
+  CASE 
+    WHEN odometer < 10000 THEN 'low'
+    WHEN odometer < 50000 THEN 'medium'
+    ELSE 'high'
+  END AS mileage_group,
+  AVG(sellingprice) AS avg_price
+FROM car_prices
+GROUP BY mileage_group;
+
+Обесценивание по возрасту
+SELECT make, AVG(sellingprice / (2025 - year)) AS depreciation_score
+FROM car_prices
+WHERE year < 2025
+group by make;
+
+Влияние состояния на цену
+SELECT coundition, AVG(sellingprice) AS avg_price
+FROM car_prices
+GROUP BY condition
+ORDER BY condition;
+
+Топ 10 дорогих авто
+SELECT make, model, sellingprice
+FROM car_prices
+ORDER BY sellingprice DESC
+LIMIT 10;

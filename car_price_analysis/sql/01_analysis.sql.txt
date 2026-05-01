@@ -1,0 +1,46 @@
+1. select make, avg(sellingprice) as avg_price
+ from car_prices
+ group by make
+ order by avg_price desc;
+2. select make, model, max(sellingprice) as max_price
+ from car_prices
+ group by make, model
+ order by max_price desc
+ limit 5;
+3. SELECT 
+    CASE 
+        WHEN odometer <= 10000 THEN '0-10000'
+        WHEN odometer <= 20000 THEN '10001-20000'
+        WHEN odometer <= 30000 THEN '20001-30000'
+        WHEN odometer <= 40000 THEN '30001-40000'
+        WHEN odometer <= 50000 THEN '40001-50000'
+        ELSE '50000+'
+    END AS mileage_range,
+    ROUND(AVG(sellingprice), 0) AS avg_price,
+    COUNT(*) AS car_count
+FROM car_prices
+WHERE odometer IS NOT NULL
+GROUP BY mileage_range
+ORDER BY MIN(odometer);
+4. select year, avg(sellingprice) as avg_price
+ from car_prices
+ group by year
+ order by avg_price desc;
+5. SELECT 
+    AVG(sellingprice - mmr) AS avg_premium,
+    MIN(sellingprice - mmr) AS min_premium,
+    MAX(sellingprice - mmr) AS max_premium,
+    COUNT(*) AS total_cars
+FROM car_prices;
+6. SELECT 
+    make,
+    MIN(sellingprice) AS min_price,
+    MAX(sellingprice) AS max_price,
+    MAX(sellingprice) - MIN(sellingprice) AS price_range
+FROM car_prices
+GROUP BY make
+ORDER BY price_range DESC;
+7. SELECT year, COUNT(*) AS cars_count
+FROM car_prices
+GROUP BY year
+ORDER BY year;
